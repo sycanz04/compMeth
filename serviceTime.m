@@ -8,6 +8,7 @@ function output = serviceTime(x)
     disp('|      3       | Waterless Washing                 | 6,7       |');
     disp('----------------------------------------------------------------');
     
+    
     % For loop for polish wax service time
     for count=1:5
         if (count==1)
@@ -55,39 +56,40 @@ function output = serviceTime(x)
      end
      printf('----------------------------------------------------\n');
      
+     
      % For loop for self service service time
      for count=1:5
         if (count==1)
            serviceTime(count)=6; 
-           prob(count)=0.15;
+           prob(count)=0.10;
            CDF(count)=prob(count);
            firstNum(count)=1;
            lastNum(count)=CDF(count)*100;
            
         elseif(count==2)
            serviceTime(count)=7; 
-           prob(count)=0.30;
+           prob(count)=0.15;
            CDF(count)=CDF(count-1)+prob(count);
            firstNum(count)=lastNum(count-1)+1;
            lastNum(count)=CDF(count)*100;
            
         elseif(count==3)
            serviceTime(count)=8; 
-           prob(count)=0.25;
+           prob(count)=0.30;
            CDF(count)=CDF(count-1)+prob(count);
            firstNum(count)=lastNum(count-1)+1;
            lastNum(count)=CDF(count)*100;
    
         elseif(count==4)
            serviceTime(count)=9; 
-           prob(count)=0.1;
+           prob(count)=0.25;
            CDF(count)=CDF(count-1)+prob(count);
            firstNum(count)=lastNum(count-1)+1;
            lastNum(count)=CDF(count)*100;
            
         elseif(count==5)
-           serviceTime(count)=10; 
-           prob(count)=0.2;
+           serviceTime(count)=10;
+           prob(count)=0.20;
            CDF(count)=CDF(count-1)+prob(count);
            firstNum(count)=lastNum(count-1)+1;
            lastNum(count)=CDF(count)*100;
@@ -103,39 +105,40 @@ function output = serviceTime(x)
      
      printf('----------------------------------------------------\n');
      
+     
      % For loop for waterless washing service time
      for count=1:5
         if (count==1)
            serviceTime(count)=5; 
            prob(count)=0.3;
            CDF(count)=prob(count);
-           firstNum(count)=1;
+           firstNum(count)=30;
            lastNum(count)=CDF(count)*100;
            
         elseif(count==2)
            serviceTime(count)=6; 
-           prob(count)=0.15;
+           prob(count)=0.20;
            CDF(count)=CDF(count-1)+prob(count);
            firstNum(count)=lastNum(count-1)+1;
            lastNum(count)=CDF(count)*100;
            
         elseif(count==3)
            serviceTime(count)=7; 
-           prob(count)=0.35;
+           prob(count)=0.15;
            CDF(count)=CDF(count-1)+prob(count);
            firstNum(count)=lastNum(count-1)+1;
            lastNum(count)=CDF(count)*100;
    
         elseif(count==4)
            serviceTime(count)=8; 
-           prob(count)=0.1;
+           prob(count)=0.20;
            CDF(count)=CDF(count-1)+prob(count);
            firstNum(count)=lastNum(count-1)+1;
            lastNum(count)=CDF(count)*100;
            
         elseif(count==5)
            serviceTime(count)=9; 
-           prob(count)=0.1;
+           prob(count)=0.15;
            CDF(count)=CDF(count-1)+prob(count);
            firstNum(count)=lastNum(count-1)+1;
            lastNum(count)=CDF(count)*100;
