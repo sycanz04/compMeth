@@ -112,7 +112,7 @@ function output = serviceTime(x)
            serviceTime(count)=5; 
            prob(count)=0.3;
            CDF(count)=prob(count);
-           firstNum(count)=30;
+           firstNum(count)=1;
            lastNum(count)=CDF(count)*100;
            
         elseif(count==2)
