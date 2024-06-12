@@ -237,29 +237,45 @@ function output=mainSimulator()
         end
     end
     
+    % Find service time
     disp('Service Time: ')
     for count = 1:carNum
         serviceTime(count) = 1 + (100 - 1) * rand();
         disp(round(serviceTime(count)))
     end
     
+    % Find inter arrival time
     disp('Inter Arrival: ')
     for count = 1:carNum
-        rnInterArrival(count) = 1 + (100 - 1) * rand();
+        if count == 1
+            rnInterArrival(count) = 0;
+        else
+            rnInterArrival(count) = 1 + (100 - 1) * rand();
+        end
         disp(round(rnInterArrival(count)))
     end
     
     % Find inter arrival time
     disp('Final Inter Arrival Time: ')
     for count = 1:carNum
-        num = 5
-        for i = 1:num
+        for i = 1:5
             if rnInterArrival(count) >= firstNum(i) && rnInterArrival(count) <= lastNum(i)
-                finalIntervalArrivalTime = interarrivalTime(i);
-                num = num - 1;
+                finalIntervalArrivalTime(count) = interarrivalTime(i);
                 break;
             end
         end
+        disp(finalIntervalArrivalTime(count))
+    end
+    
+    % Find Arrival Time
+    disp('Arrival Time: ')
+    for count = 1:carNum
+        if count == 1
+            arrivalTime(count) = 0;
+        else
+            arrivalTime(count) = arrivalTime(count - 1) + finalIntervalArrivalTime(count);
+        end
+        disp(arrivalTime(count))
     end
     
     disp('Service Type: ')
@@ -280,7 +296,7 @@ function output=mainSimulator()
     printf('| Car | RN Interval-arrival Time | Interval-arrival Time | Arrival Time | Service Type |\n');
     printf('----------------------------------------------------------------------------------------\n');
     for count=1:carNum
-        fprintf('|  %d  |            %d            |          %d            |      %d       |       %d      |\n',[count,rnInterArrival(count),finalIntervalArrivalTime(count),ones,serviceType(count)]);
+        fprintf('|  %d  |            %d            |          %d            |      %d       |       %d      |\n',[count, rnInterArrival(count), finalIntervalArrivalTime(count), arrivalTime(count), serviceType(count)]);
     end
     printf('----------------------------------------------------------------------------------------\n');
 end
