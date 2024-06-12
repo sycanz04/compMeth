@@ -1,12 +1,12 @@
 function output = serviceTime(x)
-    printf('\nTypes of Service offered\n');
-    disp('----------------------------------------------------------------');
-    disp('| Service Type |               Detail              | Counter   |');
-    disp('----------------------------------------------------------------');
-    disp('|      1       | Polish Wax                        | 1,2       |');
-    disp('|      2       | Self Service                      | 3,4,5     |');
-    disp('|      3       | Waterless Washing                 | 6,7       |');
-    disp('----------------------------------------------------------------');
+%    printf('\nTypes of Service offered\n');
+%    disp('----------------------------------------------------------------');
+%    disp('| Service Type |               Detail              | Counter   |');
+%    disp('----------------------------------------------------------------');
+%    disp('|      1       | Polish Wax                        | 1,2       |');
+%    disp('|      2       | Self Service                      | 3,4,5     |');
+%    disp('|      3       | Waterless Washing                 | 6,7       |');
+%    disp('----------------------------------------------------------------');
     
     
     % For loop for polish wax service time
@@ -47,7 +47,7 @@ function output = serviceTime(x)
            lastNum(count)=CDF(count)*100;
         end
      end 
-     printf('\n\nPolish Wax Service Time\n');
+     printf('\n\nWash bay 1\n');
      printf('----------------------------------------------------\n');
      printf('| Service Time  |  Probability  |  CDF   | Range   |\n');
      printf('----------------------------------------------------\n');
@@ -95,7 +95,7 @@ function output = serviceTime(x)
            lastNum(count)=CDF(count)*100;
         end
      end 
-     printf('\n\nSelf Service Service Time\n');
+     printf('\n\nWash bay 2\n');
      printf('----------------------------------------------------\n');
      printf('| Service Time  |  Probability  |  CDF   | Range   |\n');
      printf('----------------------------------------------------\n');
@@ -144,7 +144,7 @@ function output = serviceTime(x)
            lastNum(count)=CDF(count)*100;
         end
      end 
-     printf('\n\nWaterless Washing Service Time\n');
+     printf('\n\nWash bay 3\n');
      printf('----------------------------------------------------\n');
      printf('| Service Time  |  Probability  |  CDF   | Range   |\n');
      printf('----------------------------------------------------\n');

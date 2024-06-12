@@ -1,6 +1,6 @@
 function output= interArrival(x) %Interarrival Time Table
     
-   %Set value for each column
+    %Set value for each column
     
     for count=1:5
         if (count==1)
