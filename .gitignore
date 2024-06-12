@@ -1,2 +1,6 @@
 TMA1301 Coding Assignment T2_2410.pdf
 exampleSimulator.m
+display.m
+interArrival.m
+serviceTime.m
+serviceType.m
