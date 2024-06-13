@@ -15,39 +15,39 @@ function output=mainSimulator()
     % For loop for polish wax service time
     for count=1:5
         if (count==1)
-           serviceTime(count)=3; 
-           prob(count)=0.20;
-           CDF(count)=prob(count);
-           firstNum(count)=1;
-           lastNum(count)=CDF(count)*100;
+           wbOneServiceTime(count)=3; 
+           wbOneProb(count)=0.20;
+           wbOneCdf(count)=prob(count);
+           wbOneFirstNum(count)=1;
+           wbOneLastNum(count)=CDF(count)*100;
            
         elseif(count==2)
-           serviceTime(count)=4; 
-           prob(count)=0.10;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbOneServiceTime(count)=4; 
+           wbOneProb(count)=0.10;
+           wbOneCDF(count)=CDF(count-1)+prob(count);
+           wbOneFirstNum(count)=lastNum(count-1)+1;
+           wbOneLastNum(count)=CDF(count)*100;
            
         elseif(count==3)
-           serviceTime(count)=5; 
-           prob(count)=0.25;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbOneServiceTime(count)=5; 
+           wbOneProb(count)=0.25;
+           wbOneCdf(count)=CDF(count-1)+prob(count);
+           wbOneFirstNum(count)=lastNum(count-1)+1;
+           wbOneLastNum(count)=CDF(count)*100;
    
         elseif(count==4)
-           serviceTime(count)=6; 
-           prob(count)=0.30;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbOneServiceTime(count)=6; 
+           wbOneProb(count)=0.30;
+           wbOneCdf(count)=CDF(count-1)+prob(count);
+           wbOneFirstNum(count)=lastNum(count-1)+1;
+           wbOneLastNum(count)=CDF(count)*100;
            
         elseif(count==5)
-           serviceTime(count)=7; 
-           prob(count)=0.15;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbOneServiceTime(count)=7; 
+           wbOneProb(count)=0.15;
+           wbOneCdf(count)=CDF(count-1)+prob(count);
+           wbOneFirstNum(count)=lastNum(count-1)+1;
+           wbOneLastNum(count)=CDF(count)*100;
         end
      end 
      printf('\n\nWash bay 1\n');
@@ -55,7 +55,7 @@ function output=mainSimulator()
      printf('| Service Time  |  Probability  |  CDF   | Range   |\n');
      printf('----------------------------------------------------\n');
      for count=1:5
-         printf('|      %3.0f      |    %1.2f       |  %1.2f  |%3.0f-%3.0f  |\n',[serviceTime(count),prob(count),CDF(count),firstNum(count),lastNum(count)]);
+         printf('|      %3.0f      |    %1.2f       |  %1.2f  |%3.0f-%3.0f  |\n',[wbOneServiceTime(count),wbOneProb(count),wbOneCdf(count),wbOneFirstNum(count),wbOneLastNum(count)]);
      end
      printf('----------------------------------------------------\n');
      
@@ -63,39 +63,39 @@ function output=mainSimulator()
      % For loop for self service service time
      for count=1:5
         if (count==1)
-           serviceTime(count)=6; 
-           prob(count)=0.10;
-           CDF(count)=prob(count);
-           firstNum(count)=1;
-           lastNum(count)=CDF(count)*100;
+           wbTwoServiceTime(count)=6; 
+           wbTwoProb(count)=0.10;
+           wbTwoCdf(count)=prob(count);
+           wbTwoFirstNum(count)=1;
+           wbTwoLastNum(count)=CDF(count)*100;
            
         elseif(count==2)
-           serviceTime(count)=7; 
-           prob(count)=0.15;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbTwoServiceTime(count)=7; 
+           wbTwoProb(count)=0.15;
+           wbTwoCdf(count)=CDF(count-1)+prob(count);
+           wbTwoFirstNum(count)=lastNum(count-1)+1;
+           wbTwoLastNum(count)=CDF(count)*100;
            
         elseif(count==3)
-           serviceTime(count)=8; 
-           prob(count)=0.30;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbTwoServiceTime(count)=8; 
+           wbTwoProb(count)=0.30;
+           wbTwoCdf(count)=CDF(count-1)+prob(count);
+           wbTwoFirstNum(count)=lastNum(count-1)+1;
+           wbTwoLastNum(count)=CDF(count)*100;
    
         elseif(count==4)
-           serviceTime(count)=9; 
-           prob(count)=0.25;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbTwoServiceTime(count)=9; 
+           wbTwoProb(count)=0.25;
+           wbTwoCdf(count)=CDF(count-1)+prob(count);
+           wbTwoFirstNum(count)=lastNum(count-1)+1;
+           wbTwoLastNum(count)=CDF(count)*100;
            
         elseif(count==5)
-           serviceTime(count)=10;
-           prob(count)=0.20;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbTwoServiceTime(count)=10;
+           wbTwoProb(count)=0.20;
+           wbTwoCdf(count)=CDF(count-1)+prob(count);
+           wbTwoFirstNum(count)=lastNum(count-1)+1;
+           wbTwoLastNum(count)=CDF(count)*100;
         end
      end 
      printf('\n\nWash bay 2\n');
@@ -103,7 +103,7 @@ function output=mainSimulator()
      printf('| Service Time  |  Probability  |  CDF   | Range   |\n');
      printf('----------------------------------------------------\n');
      for count=1:5
-         printf('|      %3.0f      |    %1.2f       |  %1.2f  |%3.0f-%3.0f  |\n',[serviceTime(count),prob(count),CDF(count),firstNum(count),lastNum(count)]);
+         printf('|      %3.0f      |    %1.2f       |  %1.2f  |%3.0f-%3.0f  |\n',[wbTwoServiceTime(count),wbTwoProb(count),wbTwoCdf(count),wbTwoFirstNum(count),wbTwoLastNum(count)]);
      end
      
      printf('----------------------------------------------------\n');
@@ -112,39 +112,39 @@ function output=mainSimulator()
      % For loop for waterless washing service time
      for count=1:5
         if (count==1)
-           serviceTime(count)=5; 
-           prob(count)=0.3;
-           CDF(count)=prob(count);
-           firstNum(count)=1;
-           lastNum(count)=CDF(count)*100;
+           wbThreeServiceTime(count)=5; 
+           wbThreeProb(count)=0.3;
+           wbThreeCdf(count)=prob(count);
+           wbThreeFirstNum(count)=1;
+           wbThreeLastNum(count)=CDF(count)*100;
            
         elseif(count==2)
-           serviceTime(count)=6; 
-           prob(count)=0.20;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbThreeServiceTime(count)=6; 
+           wbThreeProb(count)=0.20;
+           wbThreeCdf(count)=CDF(count-1)+prob(count);
+           wbThreeFirstNum(count)=lastNum(count-1)+1;
+           wbThreeLastNum(count)=CDF(count)*100;
            
         elseif(count==3)
-           serviceTime(count)=7; 
-           prob(count)=0.15;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbThreeServiceTime(count)=7; 
+           wbThreeProb(count)=0.15;
+           wbThreeCdf(count)=CDF(count-1)+prob(count);
+           wbThreeFirstNum(count)=lastNum(count-1)+1;
+           wbThreeLastNum(count)=CDF(count)*100;
    
         elseif(count==4)
-           serviceTime(count)=8; 
-           prob(count)=0.20;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbThreeServiceTime(count)=8; 
+           wbThreeProb(count)=0.20;
+           wbThreeCdf(count)=CDF(count-1)+prob(count);
+           wbThreeFirstNum(count)=lastNum(count-1)+1;
+           wbThreeLastNum(count)=CDF(count)*100;
            
         elseif(count==5)
-           serviceTime(count)=9; 
-           prob(count)=0.15;
-           CDF(count)=CDF(count-1)+prob(count);
-           firstNum(count)=lastNum(count-1)+1;
-           lastNum(count)=CDF(count)*100;
+           wbThreeServiceTime(count)=9; 
+           wbThreeProb(count)=0.15;
+           wbThreeCdf(count)=CDF(count-1)+prob(count);
+           wbThreeFirstNum(count)=lastNum(count-1)+1;
+           wbThreeLastNum(count)=CDF(count)*100;
         end
      end 
      printf('\n\nWash bay 3\n');
@@ -152,7 +152,7 @@ function output=mainSimulator()
      printf('| Service Time  |  Probability  |  CDF   | Range   |\n');
      printf('----------------------------------------------------\n');
      for count=1:5
-         printf('|      %3.0f      |    %1.2f       |  %1.2f  |%3.0f-%3.0f  |\n',[serviceTime(count),prob(count),CDF(count),firstNum(count),lastNum(count)]);
+         printf('|      %3.0f      |    %1.2f       |  %1.2f  |%3.0f-%3.0f  |\n',[wbTwoServiceTime(count),wbTwoProb(count),wbTwoCdf(count),wbTwoFirstNum(count),wbTwoLastNum(count)]);
      end
      printf('----------------------------------------------------\n');
     
@@ -162,35 +162,35 @@ function output=mainSimulator()
     %Set value for each column
     for count=1:5
         if (count==1)
-            interarrivalTime(count)=1;
-            prob(count)=0.2;
-            CDF(count)=prob(count);
-            firstNum(count)=1;
-            lastNum(count)=CDF(count)*100;
+            iaInterarrivalTime(count)=1;
+            iaProb(count)=0.2;
+            iaCdf(count)=prob(count);
+            iaFirstNum(count)=1;
+            iaLastNum(count)=CDF(count)*100;
         elseif (count==2)
-            interarrivalTime(count)=2;
-            prob(count)=0.15;
-            CDF(count)=CDF(count-1)+prob(count);
-            firstNum(count)=lastNum(count-1)+1;
-            lastNum(count)=CDF(count)*100;
+            iaInterarrivalTime(count)=2;
+            iaProb(count)=0.15;
+            iaCdf(count)=CDF(count-1)+prob(count);
+            iaFirstNum(count)=lastNum(count-1)+1;
+            iaLastNum(count)=CDF(count)*100;
         elseif (count==3)
-            interarrivalTime(count)=3;
-            prob(count)=0.25;
-            CDF(count)=CDF(count-1)+prob(count);
-            firstNum(count)=lastNum(count-1)+1;
-            lastNum(count)=CDF(count)*100;
+            iaInterarrivalTime(count)=3;
+            iaProb(count)=0.25;
+            iaCdf(count)=CDF(count-1)+prob(count);
+            iaFirstNum(count)=lastNum(count-1)+1;
+            iaLastNum(count)=CDF(count)*100;
         elseif (count==4)
-            interarrivalTime(count)=4;
-            prob(count)=0.30;
-            CDF(count)=CDF(count-1)+prob(count);
-            firstNum(count)=lastNum(count-1)+1;
-            lastNum(count)=CDF(count)*100; 
+            iaInterarrivalTime(count)=4;
+            iaProb(count)=0.30;
+            iaCdf(count)=CDF(count-1)+prob(count);
+            iaFirstNum(count)=lastNum(count-1)+1;
+            iaLastNum(count)=CDF(count)*100; 
         else
-            interarrivalTime(count)=5;
-            prob(count)=0.1;
-            CDF(count)=CDF(count-1)+prob(count);
-            firstNum(count)=lastNum(count-1)+1;
-            lastNum(count)=CDF(count)*100;       
+            iaInterarrivalTime(count)=5;
+            iaProb(count)=0.1;
+            iaCdf(count)=CDF(count-1)+prob(count);
+            iaFirstNum(count)=lastNum(count-1)+1;
+            iaLastNum(count)=CDF(count)*100;       
          end
     end
     
@@ -238,50 +238,51 @@ function output=mainSimulator()
     end
     
     % Find service time
-    disp('Service Time: ')
+    %disp('\nService Time: ')
     for count = 1:carNum
         serviceTime(count) = 1 + (100 - 1) * rand();
-        disp(round(serviceTime(count)))
+        %disp(round(serviceTime(count)))
     end
     
-    % Find inter arrival time
-    disp('Inter Arrival: ')
+    % Generate random inter arrival time
+    %disp('Inter Arrival: ')
     for count = 1:carNum
         if count == 1
             rnInterArrival(count) = 0;
         else
             rnInterArrival(count) = 1 + (100 - 1) * rand();
         end
-        disp(round(rnInterArrival(count)))
+        %disp(round(rnInterArrival(count)))
     end
     
     % Find inter arrival time
-    disp('Final Inter Arrival Time: ')
+    %disp('Final Inter Arrival Time: ')
     for count = 1:carNum
         for i = 1:5
-            if rnInterArrival(count) >= firstNum(i) && rnInterArrival(count) <= lastNum(i)
+            if rnInterArrival(count) >= iaFirstNum(i) && rnInterArrival(count) <= iaLastNum(i)
                 finalIntervalArrivalTime(count) = interarrivalTime(i);
                 break;
             end
         end
-        disp(finalIntervalArrivalTime(count))
+        %disp(finalIntervalArrivalTime(count))
     end
     
     % Find Arrival Time
-    disp('Arrival Time: ')
+    %disp('Arrival Time: ')
     for count = 1:carNum
         if count == 1
             arrivalTime(count) = 0;
         else
             arrivalTime(count) = arrivalTime(count - 1) + finalIntervalArrivalTime(count);
         end
-        disp(arrivalTime(count))
+        %disp(arrivalTime(count))
     end
     
-    disp('Service Type: ')
+    % Generate random service time
+    %disp('Service Type: ')
     for count = 1:carNum
         serviceType(count) = 1 + (3 - 1) * rand();
-        disp(round(serviceType(count)))
+        %disp(round(serviceType(count)))
     end
 
     elseif generatorChoice==2 % Linear Congruential Generator
@@ -299,4 +300,16 @@ function output=mainSimulator()
         fprintf('|  %d  |            %d            |          %d            |      %d       |       %d      |\n',[count, rnInterArrival(count), finalIntervalArrivalTime(count), arrivalTime(count), serviceType(count)]);
     end
     printf('----------------------------------------------------------------------------------------\n');
+
+
+    % Generate random service time
+    disp('Random Service Time: ')
+    for count = 1:carNum
+        if count == 1
+            rnServiceTime(count) = 0;
+        else
+            rnServiceTime(count) = 1 + (100 - 1) * rand();
+        end
+        disp(round(rnServiceTime(count)))
+    end
 end
