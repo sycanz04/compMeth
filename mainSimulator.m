@@ -1,6 +1,7 @@
 function output=mainSimulator()
     % Generating service time
     % For loop for polish wax service time
+    fprintf('\n\n========================== SIMULATION TABLES ==========================\n\n');
     for count=1:5
         if (count==1)
            wbOneServiceTime(count)=3; 
@@ -223,6 +224,9 @@ function output=mainSimulator()
     end
     printf('--------------------------------------------------------\n\n');
     
+    fprintf('\n====================== END OF SIMULATION TABLES =======================\n\n');
+    
+    fprintf('\n============================= SIMULATION ==============================\n\n');
     valid=0;
     carNum=input('How many cars are there? Minimum 1 cars: ');
     while (valid==0)%Error checking
@@ -322,11 +326,21 @@ function output=mainSimulator()
     waitingTime = zeros(1, carNum);
     timeInSystem = zeros(1, carNum);
     
+    % Initialise variables to track events
+    events = struct('type', {}, 'time', {}, 'car', {}); % Store events in a structure
+    
     % Assign cars to wash bays
     for count = 1:carNum
+        % Determine when the car arrives
+        if count == 1
+            events(end+1) = struct('type', 'arrival', 'time', arrivalTime(count), 'car', count);
+        else
+            events(end+1) = struct('type', 'arrival', 'time', arrivalTime(count), 'car', count);
+        end
+        
         % Find the arliest available bay
         [minAvailableTime, bayIdx] = min(bayAvailability);
-        assignedBays(count) = bayIdx
+        assignedBays(count) = bayIdx;
         
         % Determine the service time based on the assigned bay
         switch bayIdx
@@ -365,10 +379,14 @@ function output=mainSimulator()
         
         % Update the availability of the assigned bay
         bayAvailability(bayIdx) = timeServiceEnds(count);
+        
+        % Store service start and end events
+        events(end+1) = struct('type', 'service_start', 'time', timeServiceBegins(count), 'car', count);
+        events(end+1) = struct('type', 'departure', 'time', timeServiceEnds(count), 'car', count);
     end
     
     % Display the final simulation table
-    printf('\nOverall Simulation Table\n');
+    printf('\n\nOverall Simulation Table\n');
     printf('----------------------------------------------------------------------------------------\n');
     printf('| Car | RN Interval-arrival Time | Interval-arrival Time | Arrival Time | Service Type |\n');
     printf('----------------------------------------------------------------------------------------\n');
@@ -383,13 +401,29 @@ function output=mainSimulator()
         if ~isempty(bayCars)
             printf('\nWash Bay %d\n', bayIdx);
             printf('------------------------------------------------------------------------------------------------------------------\n');
-            printf('| Car | RN Service Time | Service Time | Time Service Begins | Time Service Ends | Waiting Time | Time in System |\n');
+            printf('| Car | RN Service Time | Time Service Begins | Service Time | Time Service Ends | Waiting Time | Time in System |\n');
             printf('------------------------------------------------------------------------------------------------------------------\n');
             for count = 1:length(bayCars)
                 car = bayCars(count);
-                printf('|  %d  |       %d        |      %d       |         %d          |        %d        |        %d        |        %d        |\n', car, rnServiceTime(car), serviceTime(car), timeServiceBegins(car), timeServiceEnds(car), waitingTime(car), timeInSystem(car));
+                printf('|  %d  |       %d        |         %d          |      %d       |        %d        |       %d       |        %d        |\n', car, rnServiceTime(car), timeServiceBegins(car), serviceTime(car), timeServiceEnds(car), waitingTime(car), timeInSystem(car));
             end
             printf('------------------------------------------------------------------------------------------------------------------\n');
         end
     end
+    fprintf('\n========================= END OF SIMULATION ===========================\n\n');
+    
+    % Display status updates
+    fprintf('\n\n========================== SIMULATION LOGS ==========================\n\n');
+    % Iterate through events and print status updates
+    for i = 1:length(events)
+        switch events(i).type
+            case 'arrival'
+                fprintf('Arrival of car %d at minute %d\n', events(i).car, events(i).time);
+            case 'departure'
+                fprintf('Departure of car %d at minute %d\n', events(i).car, events(i).time);
+            case 'service_start'
+                fprintf('Service for car %d started at minute %d\n', events(i).car, events(i).time);
+        end
+    end
+    fprintf('\n====================== END OF SIMULATION LOGS =======================\n\n');
 end
