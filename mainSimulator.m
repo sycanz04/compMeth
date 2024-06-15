@@ -146,8 +146,8 @@ function output=mainSimulator()
     
     
      
-    %Generate Interval Time;
-    %Set value for each column
+    % Generate Interval Time
+    % Set value for each column
     for count=1:5
         if (count==1)
             iaInterarrivalTime(count)=1;
@@ -266,61 +266,108 @@ function output=mainSimulator()
     end
         
     if (generatorChoice==1) % Uniformly Distributed Integer
-        % Generate random inter arrival time
-        disp('Random Inter Arrival: ')
         for count = 1:carNum
             if count == 1
                 rnInterArrival(count) = 0;
             else
-                rnInterArrival(count) = round(1 + (100 - 1) * rand());
+                rnInterArrival(count) = round(1 + (100 - 1) * rand()); % Generating random inter arrival time
             end
-            disp(rnInterArrival(count));
-        end
-        
-        % Generate random service time
-        disp('Random Service Time: ')
-        for count = 1:carNum
-            rnServiceTime(count) = round(1 + (100 - 1) * rand());
-            disp(rnServiceTime(count));
-        end
-        
-        % Generate random service type
-        %disp('Service Type: ')
-        for count = 1:carNum
-            rnServiceType(count) = 1 + (3 - 1) * rand();
-            %disp(round(rnServiceType(count)))
+            rnServiceTime(count) = round(1 + (100 - 1) * rand()); % Generating random service time
+            rnServiceType(count) = 1 + (3 - 1) * rand(); % Generating random service type
+            % disp(rnInterArrival(count));
         end
     
     elseif generatorChoice==2 % Linear Congruential Generator
-        for count=1:customerNumber
-            custRandServiceType(count)=randi(1,100);
-            customerRandInterval(count)=round(mod(rand.*100,99)+1);
+        for count=1:carNum
+            rnInterArrival(count) = round(mod(rand() * 100, 99) + 1); % Generating random inter arrival time
+            rnServiceTime(count) = round(mod(rand() * 100, 99) + 1); % Generating random service type
+            rnServiceType(count) = round(mod(rand() * 3, 2) + 1); % Generating random service type
         end
     end
     
     % Find inter arrival time
-    %disp('Final Inter Arrival Time: ')
     for count = 1:carNum
         for i = 1:5
-            if rnInterArrival(count) >= iaFirstNum(i) && rnInterArrival(count) <= iaLastNum(i)
-                finalIntervalArrivalTime(count) = iaInterarrivalTime(i);
-                break;
+            if count == 1
+                finalIntervalArrivalTim(count) = 0;
+            else
+                for i = 1:5
+                    if rnInterArrival(count) >= iaFirstNum(i) && rnInterArrival(count) <= iaLastNum(i)
+                        finalIntervalArrivalTime(count) = iaInterarrivalTime(i);
+                        break;
+                    end
+                end
             end
         end
-        %disp(finalIntervalArrivalTime(count))
+        % disp(finalIntervalArrivalTime(count))
     end
     
     % Find Arrival Time
-    %disp('Arrival Time: ')
+    % disp('Arrival Time: ')
     for count = 1:carNum
         if count == 1
             arrivalTime(count) = 0;
         else
             arrivalTime(count) = arrivalTime(count - 1) + finalIntervalArrivalTime(count);
         end
-        %disp(arrivalTime(count))
+        % disp(arrivalTime(count))
     end
     
+    % Initialising variables for service allocation
+    bayAvailability = zeros(1, 3);
+    serviceTime = zeros(1, carNum);
+    timeServiceBegins = zeros(1, carNum);
+    timeServiceEnds = zeros(1, carNum);
+    assignedBays = zeros(1, carNum);
+    waitingTime = zeros(1, carNum);
+    timeInSystem = zeros(1, carNum);
+    
+    % Assign cars to wash bays
+    for count = 1:carNum
+        % Find the arliest available bay
+        [minAvailableTime, bayIdx] = min(bayAvailability);
+        assignedBays(count) = bayIdx
+        
+        % Determine the service time based on the assigned bay
+        switch bayIdx
+            case 1
+                for i = 1:5
+                    if rnServiceTime(count) >= wbOneFirstNum(i) && rnServiceTime(count) <= wbOneLastNum(i)
+                        serviceTime(count) = wbOneServiceTime(i);
+                        break;
+                    end
+                end
+            case 2
+                for i = 1:5
+                    if rnServiceTime(count) >= wbTwoFirstNum(i) && rnServiceTime(count) <= wbTwoLastNum(i)
+                        serviceTime(count) = wbTwoServiceTime(i);
+                        break;
+                    end
+                end
+            case 3
+                for i = 1:5
+                    if rnServiceTime(count) >= wbThreeFirstNum(i) && rnServiceTime(count) <= wbThreeLastNum(i)
+                        serviceTime(count) = wbThreeServiceTime(i);
+                        break;
+                    end
+                end
+        end
+        
+        % Calculate the time service begin/ends, and waiting time
+        if arrivalTime(count) > minAvailableTime
+            timeServiceBegins(count) = arrivalTime(count);
+        else
+            timeServiceBegins(count) = minAvailableTime;
+        end
+        timeServiceEnds(count) = timeServiceBegins(count) + serviceTime(count);
+        waitingTime(count) = timeServiceBegins(count) - arrivalTime(count);
+        timeInSystem(count) = timeServiceEnds(count) - arrivalTime(count);
+        
+        % Update the availability of the assigned bay
+        bayAvailability(bayIdx) = timeServiceEnds(count);
+    end
+    
+    % Display the final simulation table
     printf('\nOverall Simulation Table\n');
     printf('----------------------------------------------------------------------------------------\n');
     printf('| Car | RN Interval-arrival Time | Interval-arrival Time | Arrival Time | Service Type |\n');
@@ -330,31 +377,19 @@ function output=mainSimulator()
     end 
     printf('----------------------------------------------------------------------------------------\n');
     
-    % Find service time
-    %disp('Service Time: ')
-    for count = 1:carNum
-        for i = 1:5
-            if rnServiceTime(count) >= wbOneFirstNum(i) && rnServiceTime(count) <= wbOneLastNum(i)
-                serviceTime(count) = wbOneServiceTime(i);
-                break;
-        end
-        %disp(serviceTime(count))
-    end
-    
-    % Find time service begins and ends
-    for count = 1:carNum
-        if count == 1
-            timeServiceBegin(count) = 0;
-            % Find time service ends for count = 1
-            timeServiceEnds(count) = timeServiceBegin(count) + serviceTime(count);
-        else
-            if arrivalTime(count) < timeServiceEnds(count-1)
-                timeServiceBegin(count) = serviceTime(count);
-                timeServiceEnds(count) = timeServiceBegin(count) + serviceTime(count);
-            elseif arrivalTime(count) > timeServiceEnds(count-1)
-                timeServiceBegin(count) = serviceTime(count);
-                timeServiceEnds(count) = timeServiceBegin(count) + serviceTime(count);
+    % Generate tables for each wash bay
+    for bayIdx = 1:3
+        bayCars = find(assignedBays == bayIdx);
+        if ~isempty(bayCars)
+            printf('\nWash Bay %d\n', bayIdx);
+            printf('------------------------------------------------------------------------------------------------------------------\n');
+            printf('| Car | RN Service Time | Service Time | Time Service Begins | Time Service Ends | Waiting Time | Time in System |\n');
+            printf('------------------------------------------------------------------------------------------------------------------\n');
+            for count = 1:length(bayCars)
+                car = bayCars(count);
+                printf('|  %d  |       %d        |      %d       |         %d          |        %d        |        %d        |        %d        |\n', car, rnServiceTime(car), serviceTime(car), timeServiceBegins(car), timeServiceEnds(car), waitingTime(car), timeInSystem(car));
             end
+            printf('------------------------------------------------------------------------------------------------------------------\n');
         end
     end
 end
