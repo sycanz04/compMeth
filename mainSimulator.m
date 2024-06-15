@@ -226,7 +226,7 @@ function output=mainSimulator()
     
     fprintf('\n====================== END OF SIMULATION TABLES =======================\n\n');
     
-    fprintf('\n============================= SIMULATION ==============================\n\n');
+    fprintf('\n\n============================= SIMULATION ==============================\n\n');
     valid=0;
     carNum=input('How many cars are there? Minimum 1 cars: ');
     while (valid==0)%Error checking
@@ -438,7 +438,7 @@ function output=mainSimulator()
     avgServiceTimeBay2 = mean(serviceTime(assignedBays == 2));
     avgServiceTimeBay3 = mean(serviceTime(assignedBays == 3));
     
-    fprintf('\n========================= SIMULATION RESULTS ==========================\n\n');
+    fprintf('\n\n========================= SIMULATION RESULTS ==========================\n\n');
     fprintf('Average waiting time: %.2f minutes\n', avgWaitingTime);
     fprintf('Average inter-arrival time: %.2f minutes\n', avgInterArrivalTime);
     fprintf('Average arrival time: %.2f minutes\n', avgArrivalTime);
