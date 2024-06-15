@@ -413,7 +413,7 @@ function output=mainSimulator()
     fprintf('\n========================= END OF SIMULATION ===========================\n\n');
     
     % Display status updates
-    fprintf('\n\n========================== SIMULATION LOGS ==========================\n\n');
+    fprintf('\n\n=========================== SIMULATION LOGS ===========================\n\n');
     % Iterate through events and print status updates
     for i = 1:length(events)
         switch events(i).type
@@ -425,5 +425,27 @@ function output=mainSimulator()
                 fprintf('Service for car %d started at minute %d\n', events(i).car, events(i).time);
         end
     end
-    fprintf('\n====================== END OF SIMULATION LOGS =======================\n\n');
+    fprintf('\n======================= END OF SIMULATION LOGS ========================\n\n');
+    
+    % Evaluate the results of the simulation
+    avgWaitingTime = mean(waitingTime);
+    avgInterArrivalTime = mean(finalIntervalArrivalTime);
+    avgArrivalTime = mean(arrivalTime);
+    avgTimeSpent = mean(timeInSystem);
+    probWait = sum(waitingTime > 0) / carNum;
+    
+    avgServiceTimeBay1 = mean(serviceTime(assignedBays == 1));
+    avgServiceTimeBay2 = mean(serviceTime(assignedBays == 2));
+    avgServiceTimeBay3 = mean(serviceTime(assignedBays == 3));
+    
+    fprintf('\n========================= SIMULATION RESULTS ==========================\n\n');
+    fprintf('Average waiting time: %.2f minutes\n', avgWaitingTime);
+    fprintf('Average inter-arrival time: %.2f minutes\n', avgInterArrivalTime);
+    fprintf('Average arrival time: %.2f minutes\n', avgArrivalTime);
+    fprintf('Average time spent in the system: %.2f minutes\n', avgTimeSpent);
+    fprintf('Probability that a car owner has to wait: %.2f\n', probWait);
+    fprintf('Average service time for Wash Bay 1: %.2f minutes\n', avgServiceTimeBay1);
+    fprintf('Average service time for Wash Bay 2: %.2f minutes\n', avgServiceTimeBay2);
+    fprintf('Average service time for Wash Bay 3: %.2f minutes\n', avgServiceTimeBay3);
+    fprintf('\n===================== END OF SIMULATION RESULTS =======================\n\n');
 end
