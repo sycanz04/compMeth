@@ -251,19 +251,44 @@ function output=mainSimulator()
     end
     
     
-    % Generating random number for interval and service type based on service type
-    if (generatorChoice==1) % Uniformly Distributed Integer
-        seed1 = 100*rand();
-        seed2 = 100*rand();
-        valid = 0;
-        while (valid == 0)
-            if seed1 > seed2
-                seed1 = 100*rand();
-                seed2 = 100*rand();
-            else
+    % Generating seed number for different generators
+    seed1 = 100*rand();
+    seed2 = 100*rand();
+    valid = 0;
+    while (valid == 0)
+        if seed1 > seed2
+            seed1 = 100*rand();
+            seed2 = 100*rand();
+        else
                 seed(seed1, seed2);
                 valid = 1;
+        end
+    end
+        
+    if (generatorChoice==1) % Uniformly Distributed Integer
+        % Generate random inter arrival time
+        disp('Random Inter Arrival: ')
+        for count = 1:carNum
+            if count == 1
+                rnInterArrival(count) = 0;
+            else
+                rnInterArrival(count) = round(1 + (100 - 1) * rand());
             end
+            disp(rnInterArrival(count));
+        end
+        
+        % Generate random service time
+        disp('Random Service Time: ')
+        for count = 1:carNum
+            rnServiceTime(count) = round(1 + (100 - 1) * rand());
+            disp(rnServiceTime(count));
+        end
+        
+        % Generate random service type
+        %disp('Service Type: ')
+        for count = 1:carNum
+            rnServiceType(count) = 1 + (3 - 1) * rand();
+            %disp(round(rnServiceType(count)))
         end
     
     elseif generatorChoice==2 % Linear Congruential Generator
@@ -271,24 +296,6 @@ function output=mainSimulator()
             custRandServiceType(count)=randi(1,100);
             customerRandInterval(count)=round(mod(rand.*100,99)+1);
         end
-    end
-    
-    % Find service time
-    %disp('\nService Time: ')
-    for count = 1:carNum
-        serviceTime(count) = 1 + (100 - 1) * rand();
-        %disp(round(serviceTime(count)))
-    end
-    
-    % Generate random inter arrival time
-    %disp('Inter Arrival: ')
-    for count = 1:carNum
-        if count == 1
-            rnInterArrival(count) = 0;
-        else
-            rnInterArrival(count) = 1 + (100 - 1) * rand();
-        end
-        %disp(round(rnInterArrival(count)))
     end
     
     % Find inter arrival time
@@ -314,44 +321,40 @@ function output=mainSimulator()
         %disp(arrivalTime(count))
     end
     
-    % Generate random service time
-    %disp('Service Type: ')
-    for count = 1:carNum
-        rnServiceType(count) = 1 + (3 - 1) * rand();
-        %disp(round(rnServiceType(count)))
-    end
-    
     printf('\nOverall Simulation Table\n');
     printf('----------------------------------------------------------------------------------------\n');
     printf('| Car | RN Interval-arrival Time | Interval-arrival Time | Arrival Time | Service Type |\n');
     printf('----------------------------------------------------------------------------------------\n');
     for count=1:carNum
         fprintf('|  %d  |            %d            |          %d            |      %d       |       %d      |\n',[count, rnInterArrival(count), finalIntervalArrivalTime(count), arrivalTime(count), rnServiceType(count)]);
-    end
+    end 
     printf('----------------------------------------------------------------------------------------\n');
-
-
-    % Generate random service time
-    disp('Random Service Time: ')
-    for count = 1:carNum
-        if count == 1
-            rnServiceTime(count) = 0;
-        else
-            rnServiceTime(count) = 1 + (100 - 1) * rand();
-        end
-        disp(round(rnServiceTime(count)))
-    end
     
     % Find service time
     %disp('Service Time: ')
     for count = 1:carNum
-        if count == 1
-            if rnServiceTime(count) >= iaFirstNum(i) && rnServiceTime(count) <= iaLastNum(i)
-                serviceTime(count) = interarrivalTime(i);
+        for i = 1:5
+            if rnServiceTime(count) >= wbOneFirstNum(i) && rnServiceTime(count) <= wbOneLastNum(i)
+                serviceTime(count) = wbOneServiceTime(i);
                 break;
-            end
-            
         end
-        %disp(finalIntervalArrivalTime(count))
+        %disp(serviceTime(count))
+    end
+    
+    % Find time service begins and ends
+    for count = 1:carNum
+        if count == 1
+            timeServiceBegin(count) = 0;
+            % Find time service ends for count = 1
+            timeServiceEnds(count) = timeServiceBegin(count) + serviceTime(count);
+        else
+            if arrivalTime(count) < timeServiceEnds(count-1)
+                timeServiceBegin(count) = serviceTime(count);
+                timeServiceEnds(count) = timeServiceBegin(count) + serviceTime(count);
+            elseif arrivalTime(count) > timeServiceEnds(count-1)
+                timeServiceBegin(count) = serviceTime(count);
+                timeServiceEnds(count) = timeServiceBegin(count) + serviceTime(count);
+            end
+        end
     end
 end
