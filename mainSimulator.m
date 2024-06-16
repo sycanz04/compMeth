@@ -1,7 +1,7 @@
 function output=mainSimulator()
     % Generating service time
     % For loop for polish wax service time
-    fprintf('\n\n========================== SIMULATION TABLES ==========================\n\n');
+    fprintf('\n\n========================== SERVICE TIME TABLES ==========================\n\n');
     for count=1:5
         if (count==1)
            wbOneServiceTime(count)=3; 
@@ -224,7 +224,7 @@ function output=mainSimulator()
     end
     printf('--------------------------------------------------------\n\n');
     
-    fprintf('\n====================== END OF SIMULATION TABLES =======================\n\n');
+    fprintf('\n======================== END OF SERVICE TIME TABLES =======================\n\n');
     
     fprintf('\n\n============================= SIMULATION ==============================\n\n');
     valid=0;
