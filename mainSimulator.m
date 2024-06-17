@@ -184,7 +184,7 @@ function output=mainSimulator()
     end
     printf('\nInter-Arrival Table\n');
     printf('----------------------------------------------------------\n');
-    printf('| Inrer-Arrival Time  |  Probability  |  CDF   | Range   |\n');
+    printf('| Inter-Arrival Time  |  Probability  |  CDF   | Range   |\n');
     printf('----------------------------------------------------------\n');
     for count=1:5
         printf('|        %3.0f          |     %1.2f      |  %1.2f  |%3.0f-%3.0f  |\n',[iaInterarrivalTime(count),iaProb(count),iaCdf(count),iaFirstNum(count),iaLastNum(count)]);
@@ -278,12 +278,15 @@ function output=mainSimulator()
             end
             rnServiceTime(count) = round(1 + (100 - 1) * rand()); % Generating random service time
             rnServiceType(count) = 1 + (3 - 1) * rand(); % Generating random service type
-            % disp(rnInterArrival(count));
         end
     
     elseif generatorChoice==2 % Linear Congruential Generator
         for count=1:carNum
-            rnInterArrival(count) = round(mod(rand() * 100, 99) + 1); % Generating random inter arrival time
+            if count == 1
+                rnInterArrival(count) = 0;
+            else
+                rnInterArrival(count) = round(mod(rand() * 100, 99) + 1); % Generating random inter arrival time
+            end
             rnServiceTime(count) = round(mod(rand() * 100, 99) + 1); % Generating random service type
             rnServiceType(count) = round(mod(rand() * 3, 2) + 1); % Generating random service type
         end
@@ -303,18 +306,15 @@ function output=mainSimulator()
                 end
             end
         end
-        % disp(finalIntervalArrivalTime(count))
     end
     
     % Find Arrival Time
-    % disp('Arrival Time: ')
     for count = 1:carNum
         if count == 1
             arrivalTime(count) = 0;
         else
             arrivalTime(count) = arrivalTime(count - 1) + finalIntervalArrivalTime(count);
         end
-        % disp(arrivalTime(count))
     end
     
     % Initialising variables for service allocation
@@ -338,7 +338,7 @@ function output=mainSimulator()
             events(end+1) = struct('type', 'arrival', 'time', arrivalTime(count), 'car', count);
         end
         
-        % Find the arliest available bay
+        % Find the earliest available bay
         [minAvailableTime, bayIdx] = min(bayAvailability);
         assignedBays(count) = bayIdx;
         
