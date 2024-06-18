@@ -256,20 +256,20 @@ function output=mainSimulator()
     
     
     % Generating seed number for different generators
-    seed1 = 100*rand();
-    seed2 = 100*rand();
+    seed1 = round(100*rand());
+    seed2 = round(100*rand());
     valid = 0;
     while (valid == 0)
         if seed1 > seed2
-            seed1 = 100*rand();
-            seed2 = 100*rand();
+            seed1 = round(100*rand());
+            seed2 = round(100*rand());
         else
-                seed(seed1, seed2);
-                valid = 1;
+            seed(seed1, seed2);
+            valid = 1;
         end
     end
         
-    if (generatorChoice==1) % Uniformly Distributed Integer
+    if (generatorChoice==1) % Freemat's built in rand function
         for count = 1:carNum
             if count == 1
                 rnInterArrival(count) = 0;
@@ -277,18 +277,26 @@ function output=mainSimulator()
                 rnInterArrival(count) = round(1 + (100 - 1) * rand()); % Generating random inter arrival time
             end
             rnServiceTime(count) = round(1 + (100 - 1) * rand()); % Generating random service time
-            rnServiceType(count) = 1 + (3 - 1) * rand(); % Generating random service type
+            rnServiceType(count) = round(1 + (3 - 1) * rand()); % Generating random service type
         end
     
     elseif generatorChoice==2 % Linear Congruential Generator
+        Xn = seed1;
+        a = round(1 + (100 - 1) * rand()); % Randomly generating multiplier
+        c = round(1 + (100 - 1) * rand()); % Randomly generating increment
+        modulus = 100; % Initializing modulus value
+        
         for count=1:carNum
             if count == 1
                 rnInterArrival(count) = 0;
             else
-                rnInterArrival(count) = round(mod(rand() * 100, 99) + 1); % Generating random inter arrival time
+                Xn = mod(a * Xn + c, modulus); % LCG formula
+                rnInterArrival(count) = round(Xn + 1); % Generating random inter arrival time
             end
-            rnServiceTime(count) = round(mod(rand() * 100, 99) + 1); % Generating random service type
-            rnServiceType(count) = round(mod(rand() * 3, 2) + 1); % Generating random service type
+            Xn = mod(a * Xn + c, modulus);
+            rnServiceTime(count) = round(Xn + 1); % Generating random service time
+            Xn = mod(a * Xn + c, modulus);
+            rnServiceType(count) = round(Xn + 1); % Generating random service type
         end
     end
     
